@@ -104,7 +104,7 @@
                             </div>
                             <div class="input-field col s6">
                                 <label for="FechaNac">Nacimiento:</label>
-                                <input type="date" class="datepicker" id="FechaNac" name="Naci" value="${Naci}" disabled required>
+                                <input type="date" class="datepicker" id="FechaNac" name="Naci" value="${Naci}" disabled>
                             </div>
                             <div class="input-field col s6">
                                 <input name="DUI" type="text" class="validate" value="${DUI}" disabled required>
@@ -139,7 +139,7 @@
                             </div>
                             <div class="input-field col s6">
                                 <label for="FechaNac">Nacimiento:</label>
-                                <input type="date" class="datepicker" id="FechaNac" name="Naci" value="${Naci}" required>
+                                <input type="date" class="datepicker" id="FechaNac" name="Naci" value="${Naci}">
                             </div>
                             <div class="input-field col s6">
                                 <input name="DUI" type="text" class="validate" value="${DUI}" required>
