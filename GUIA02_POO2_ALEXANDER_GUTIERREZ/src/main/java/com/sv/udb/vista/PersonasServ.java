@@ -45,7 +45,7 @@ public class PersonasServ extends HttpServlet {
             String mens = "";
             String CRUD = request.getParameter("cursBton");
             switch (CRUD) {
-                case "Guardar": {                    
+                case "Guardar": {
                     Personas obje = new Personas();
                     PersonasCtrl obje2 = new PersonasCtrl();
                     obje.setIdPers(obje2.consNum() + 1);
@@ -69,32 +69,43 @@ public class PersonasServ extends HttpServlet {
                     mens = new PersonasCtrl().guar(obje, Foto, FechNaci) ? "Datos guardados." : "Datos NO guardados.";
                     break;
                 }
-                /*case "Consultar": {
-                    int codiProv = Integer.parseInt(request.getParameter("codiProvRadi") == null ? "0" : request.getParameter("codiProvRadi"));
-                    Proveedores obje = new ProveedoresCtrl().cons(codiProv);
+                case "Consultar": {
+                    int codiPers = Integer.parseInt(request.getParameter("codiPersRadi") == null ? "0" : request.getParameter("codiPersRadi"));
+                    Personas obje = new PersonasCtrl().cons(codiPers);
                     if (obje != null) {
-                        request.setAttribute("codiProv", obje.getIdProv());
-                        request.setAttribute("nombProv", obje.getNombProv());
-                        request.setAttribute("direProv", obje.getDireProv());
-                        request.setAttribute("teleProv", obje.getTeleProv());
+                        request.setAttribute("codiPers", obje.getIdPers());
+                        request.setAttribute("Nombre", obje.getNombPers());
+                        request.setAttribute("Apellidos", obje.getApelPers());
+                        request.setAttribute("Naci", obje.getFechNaci());
+                        request.setAttribute("DUI", obje.getDui());
+                        request.setAttribute("NIT", obje.getNit());
+                        request.setAttribute("TipoSang", obje.getTipoSangre());
+                        request.setAttribute("cmbGene", obje.getGenePers());
+                        request.setAttribute("opConsulta", 1);
                     }
                     break;
                 }
                 case "Modificar": {
-                    String valor = request.getParameter("codiProv");
+                    String valor = request.getParameter("codiPers");
                     if (!valor.equals("")) {
-                        Proveedores obje = new Proveedores();
-                        obje.setIdProv(Integer.parseInt(request.getParameter("codiProv")));
-                        obje.setNombProv(request.getParameter("nombProv"));
-                        obje.setDireProv(request.getParameter("direProv"));
-                        obje.setTeleProv(request.getParameter("teleProv"));
-                        mens = new ProveedoresCtrl().actu(obje) ? "Datos modificados." : "Datos NO modificados.";
+                        Personas obje = new Personas();
+                        obje.setIdPers(Integer.parseInt(request.getParameter("codiPers")));
+                        obje.setNombPers(request.getParameter("Nombre"));
+                        obje.setApelPers(request.getParameter("Apellidos"));
+                        obje.setIdTipo(Integer.parseInt(request.getParameter("cmbTipo")));
+                        obje.setIdDirec(Integer.parseInt(request.getParameter("cmbDirec")));
+                        InputStream Foto = null;
+                        Part filePart = request.getPart("Foto");
+                        if (filePart != null) {
+                            Foto = filePart.getInputStream();
+                        }
+                        mens = new PersonasCtrl().actu(obje, Foto) ? "Datos modificados." : "Datos NO modificados.";
                     } else {
                         mens = "Seleccione un dato.";
                     }
                     break;
                 }
-                case "Eliminar": {
+                /*case "Eliminar": {
                     String valor = request.getParameter("codiProv");
                     if (!valor.equals("")) {
                         Proveedores obje = new Proveedores();

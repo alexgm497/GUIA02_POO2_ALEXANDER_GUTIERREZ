@@ -37,16 +37,16 @@
             <center><h3 class="teal-text text-lighten-2">${mensAlert}</h3></center>
             <br/>
             <div class="row">
-                <form method="POST" action="PersonasServ" class="col s12" enctype="multipart/form-data">                    
+                <form name="DatosForm" method="POST" action="PersonasServ" class="col s12" enctype="multipart/form-data">                    
                     <input type="hidden" name="codiPers" value="${codiPers}"/>
                     <jsp:useBean id="beanTipoPersCtrl" class="com.sv.udb.controlador.TipoPersCtrl" scope="page"/>
                     <jsp:useBean id="beanDireccCtrl" class="com.sv.udb.controlador.DireccCtrl" scope="page"/>
                     <div class="input-field col s6">
-                        <input name="Nombre" type="text" class="validate">
+                        <input name="Nombre" type="text" class="validate" value="${Nombre}" required>
                         <label for="Nombre">Nombre</label>
                     </div>
                     <div class="input-field col s6">
-                        <input name="Apellidos" type="text" class="validate">
+                        <input name="Apellidos" type="text" class="validate" value="${Apellidos}" required>
                         <label for="Apellidos">Apellidos</label>
                     </div>
                     <div class="input-field col s6">
@@ -83,29 +83,78 @@
                     <br/>
                     <br/>
                     <br/>
-                    <div class="input-field col s6">
-                        <select name="cmbGene">
-                            <option value="M">Masculino</option>
-                            <option value="F">Femenino</option>
-                        </select>
-                        <label for="cmbGene">Genero:</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <label for="FechaNac">Nacimiento:</label>
-                        <input type="date" class="datepicker" id="FechaNac" name="Naci">
-                    </div>
-                    <div class="input-field col s6">
-                        <input name="DUI" type="text" class="validate">
-                        <label for="DUI">DUI:</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <input name="NIT" type="text" class="validate">
-                        <label for="NIT">NIT:</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <input name="TipoSang" type="text" class="validate">
-                        <label for="TipoSang">Tipo de sangre:</label>
-                    </div>
+                    <c:choose>
+                        <c:when test="${opConsulta == 1}">
+                            <div class="input-field col s6">
+                                <select name="cmbGene" disabled>
+                                    <c:choose>
+                                        <c:when test="${'Masculino' == cmbGene}">
+                                            <option value="M" selected>Masculino</option>                                      
+                                        </c:when>
+                                        <c:when test="${'Femenino' == cmbGene}">
+                                            <option value="F" selected>Femenino</option>                                      
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="M">Masculino</option>  
+                                            <option value="F">Femenino</option>                               
+                                        </c:otherwise>
+                                    </c:choose>
+                                </select>
+                                <label for="cmbGene">Genero:</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <label for="FechaNac">Nacimiento:</label>
+                                <input type="date" class="datepicker" id="FechaNac" name="Naci" value="${Naci}" disabled required>
+                            </div>
+                            <div class="input-field col s6">
+                                <input name="DUI" type="text" class="validate" value="${DUI}" disabled required>
+                                <label for="DUI">DUI:</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input name="NIT" type="text" class="validate" value="${NIT}" disabled required>
+                                <label for="NIT">NIT:</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input name="TipoSang" type="text" class="validate" value="${TipoSang}" disabled required>
+                                <label for="TipoSang">Tipo de sangre:</label>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="input-field col s6">
+                                <select name="cmbGene">
+                                    <c:choose>
+                                        <c:when test="${'Masculino' == cmbGene}">
+                                            <option value="M" selected>Masculino</option>                                      
+                                        </c:when>
+                                        <c:when test="${'Femenino' == cmbGene}">
+                                            <option value="F" selected>Femenino</option>                                      
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="M">Masculino</option>  
+                                            <option value="F">Femenino</option>                               
+                                        </c:otherwise>
+                                    </c:choose>
+                                </select>
+                                <label for="cmbGene">Genero:</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <label for="FechaNac">Nacimiento:</label>
+                                <input type="date" class="datepicker" id="FechaNac" name="Naci" value="${Naci}" required>
+                            </div>
+                            <div class="input-field col s6">
+                                <input name="DUI" type="text" class="validate" value="${DUI}" required>
+                                <label for="DUI">DUI:</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input name="NIT" type="text" class="validate" value="${NIT}" required>
+                                <label for="NIT">NIT:</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input name="TipoSang" type="text" class="validate" value="${TipoSang}" required>
+                                <label for="TipoSang">Tipo de sangre:</label>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                     <div class="input-field col s6">                    
                         <select name="cmbDirec">
                             <c:forEach items="${beanDireccCtrl.consTodo()}" var="fila">
@@ -124,12 +173,61 @@
                     <div class="col s12">
                         <br/>
                         <center>
-                            <input class="btn waves-effect waves-light" type="submit" name="cursBton" value="Guardar"/>
-                            <input class="btn waves-effect waves-light" type="submit" name="cursBton" value="Modificar"/>
-                            <input class="btn waves-effect waves-light" type="submit" name="cursBton" value="Eliminar"/>
+                            <c:choose>
+                                <c:when test="${opConsulta == 1}">
+                                    <input class="btn waves-effect waves-light disabled" type="submit" name="cursBton" value="Guardar"/>
+                                    <input class="btn waves-effect waves-light" type="submit" name="cursBton" value="Modificar"/>
+                                    <input class="btn waves-effect waves-light" type="submit" name="cursBton" onclick="return confirm('¿Desea borrar el dato?')" value="Eliminar"/>
+                                    <input class="btn waves-effect waves-light" type="submit" name="cursBton" value="Cancelar"/>                                      
+                                </c:when>
+                                <c:otherwise>
+                                    <input class="btn waves-effect waves-light" type="submit" name="cursBton" value="Guardar"/>
+                                    <input class="btn waves-effect waves-light disabled" type="submit" name="cursBton" value="Modificar"/>
+                                    <input class="btn waves-effect waves-light disabled" type="submit" name="cursBton" onclick="return confirm('¿Desea borrar el dato?')" value="Eliminar"/>
+                                    <input class="btn waves-effect waves-light disabled" type="submit" name="cursBton" value="Cancelar"/>                                     
+                                </c:otherwise>
+                            </c:choose>
                         </center>
                         <br/>
                     </div>
+                </form>
+                <form name="TablaForm" method="POST" action="PersonasServ" class="col s12">
+                    <jsp:useBean id="beanPersonasCtrl" class="com.sv.udb.controlador.PersonasCtrl" scope="page"/>
+                    <table border="1" class="striped">
+                        <thead>
+                            <tr>
+                                <th class="card-panel teal lighten-2">Nombre</th>
+                                <th class="card-panel teal lighten-2">Apellido</th>
+                                <th class="card-panel teal lighten-2">Tipo</th>
+                                <th class="card-panel teal lighten-2">Genero</th>
+                                <th class="card-panel teal lighten-2">Nacimiento</th>
+                                <th class="card-panel teal lighten-2">DUI</th>
+                                <th class="card-panel teal lighten-2">NIT</th>
+                                <th class="card-panel teal lighten-2">Tipo sangre</th>
+                                <th class="card-panel teal lighten-2">Dirección</th>
+                                <th class="card-panel teal lighten-2">--</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${beanPersonasCtrl.consTodo()}" var="fila">
+                                <tr>
+                                    <td><c:out value="${fila.nombPers}"></c:out></td>
+                                    <td><c:out value="${fila.apelPers}"></c:out></td>
+                                    <td><c:out value="${fila.nombTipo}"></c:out></td>
+                                    <td><c:out value="${fila.genePers}"></c:out></td>
+                                    <td><c:out value="${fila.fechNaci}"></c:out></td>
+                                    <td><c:out value="${fila.dui}"></c:out></td>
+                                    <td><c:out value="${fila.nit}"></c:out></td>
+                                    <td><c:out value="${fila.tipoSangre}"></c:out></td>
+                                    <td><c:out value="${fila.nombUbic}"></c:out></td>
+                                    <td><p><input id="${fila.idPers}" type="radio" name="codiPersRadi" value="${fila.idPers}"/><label for="${fila.idPers}"></label></p></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <center><input class="btn waves-effect waves-light" type="submit" name="cursBton" value="Consultar"/></center>
+                    <br/>
                 </form>
             </div>
         </div>
@@ -137,9 +235,9 @@
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script type="text/javascript" src="js/materialize.js"></script>
         <script>
-            $(document).ready(function () {
-                $('select').material_select();
-            });
+                                        $(document).ready(function () {
+                                            $('select').material_select();
+                                        });
         </script>
         <script>
             $('.datepicker').pickadate({
