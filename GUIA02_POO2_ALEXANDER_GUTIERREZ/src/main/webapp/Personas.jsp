@@ -226,7 +226,12 @@
                         </tbody>
                     </table>
                     <br/>
-                    <center><input class="btn waves-effect waves-light" type="submit" name="cursBton" value="Consultar"/></center>
+                    <div class="col s12">
+                        <center>
+                            <input class="btn waves-effect waves-light" type="submit" name="cursBton" value="Consultar"/>
+                            <input class="btn waves-effect waves-light" type="submit" name="cursBton" value="Ficha"/>
+                        </center>
+                    </div>
                     <br/>
                 </form>
             </div>

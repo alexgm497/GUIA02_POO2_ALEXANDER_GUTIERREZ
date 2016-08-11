@@ -7,9 +7,12 @@ package com.sv.udb.vista;
 
 import com.sv.udb.controlador.PersonasCtrl;
 import com.sv.udb.modelo.Personas;
+import com.sv.udb.recursos.Conexion;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -65,8 +68,10 @@ public class PersonasServ extends HttpServlet {
                     obje.setIdDirec(Integer.parseInt(request.getParameter("cmbDirec")));
                     Date ahora = new Date();
                     Calendar Calendario = new GregorianCalendar();
-                    String FechNaci = ahora.getDate() + "-" + (ahora.getMonth() + 1) + "-" + (ahora.getYear() + 1900) + " " + Calendario.get(Calendar.HOUR_OF_DAY) + ":" + Calendario.get(Calendar.MINUTE) + ":" + Calendario.get(Calendar.SECOND);
-                    mens = new PersonasCtrl().guar(obje, Foto, FechNaci) ? "Datos guardados." : "Datos NO guardados.";
+                    String FechaAlta = ahora.getDate() + "-" + (ahora.getMonth() + 1) + "-" + (ahora.getYear() + 1900) + " " + Calendario.get(Calendar.HOUR_OF_DAY) + ":" + Calendario.get(Calendar.MINUTE) + ":" + Calendario.get(Calendar.SECOND);
+                    mens = new PersonasCtrl().guar(obje, Foto, FechaAlta) ? "Datos guardados." : "Datos NO guardados.";
+                    request.setAttribute("mensAlert", mens);
+                    request.getRequestDispatcher("/Personas.jsp").forward(request, response);
                     break;
                 }
                 case "Consultar": {
@@ -83,6 +88,8 @@ public class PersonasServ extends HttpServlet {
                         request.setAttribute("cmbGene", obje.getGenePers());
                         request.setAttribute("opConsulta", 1);
                     }
+                    request.setAttribute("mensAlert", mens);
+                    request.getRequestDispatcher("/Personas.jsp").forward(request, response);
                     break;
                 }
                 case "Modificar": {
@@ -99,28 +106,52 @@ public class PersonasServ extends HttpServlet {
                         if (filePart != null) {
                             Foto = filePart.getInputStream();
                         }
-                        mens = new PersonasCtrl().actu(obje, Foto) ? "Datos modificados." : "Datos NO modificados.";
+                        Date ahora = new Date();
+                        Calendar Calendario = new GregorianCalendar();
+                        String FechaAlta = ahora.getDate() + "-" + (ahora.getMonth() + 1) + "-" + (ahora.getYear() + 1900) + " " + Calendario.get(Calendar.HOUR_OF_DAY) + ":" + Calendario.get(Calendar.MINUTE) + ":" + Calendario.get(Calendar.SECOND);
+                        mens = new PersonasCtrl().actu(obje, Foto, FechaAlta) ? "Datos modificados." : "Datos NO modificados.";
                     } else {
                         mens = "Seleccione un dato.";
+                    }
+                    request.setAttribute("mensAlert", mens);
+                    request.getRequestDispatcher("/Personas.jsp").forward(request, response);
+                    break;
+                }
+                case "Eliminar": {
+                    String valor = request.getParameter("codiPers");
+                    if (!valor.equals("")) {
+                        Personas obje = new Personas();
+                        obje.setIdPers(Integer.parseInt(request.getParameter("codiPers")));
+                        Date ahora = new Date();
+                        Calendar Calendario = new GregorianCalendar();
+                        String FechaBaja = ahora.getDate() + "-" + (ahora.getMonth() + 1) + "-" + (ahora.getYear() + 1900) + " " + Calendario.get(Calendar.HOUR_OF_DAY) + ":" + Calendario.get(Calendar.MINUTE) + ":" + Calendario.get(Calendar.SECOND);
+                        mens = new PersonasCtrl().elim(obje, FechaBaja) ? "Datos eliminados." : "Datos NO eliminados.";
+                    } else {
+                        mens = "Seleccione un dato.";
+                    }
+                    request.setAttribute("mensAlert", mens);
+                    request.getRequestDispatcher("/Personas.jsp").forward(request, response);
+                    break;
+                }
+                case "Ficha": {
+                    int codiPers = Integer.parseInt(request.getParameter("codiPersRadi") == null ? "0" : request.getParameter("codiPersRadi"));
+                    if (codiPers > 0) {
+                        request.getSession().setAttribute("idPers", String.valueOf(codiPers));
+                        response.sendRedirect(request.getContextPath() + "/FichaPers.jsp");
+                    } else {
+                        mens = "Seleccione un dato.";
+                        request.setAttribute("mensAlert", mens);
+                        request.getRequestDispatcher("/Personas.jsp").forward(request, response);
                     }
                     break;
                 }
-                /*case "Eliminar": {
-                    String valor = request.getParameter("codiProv");
-                    if (!valor.equals("")) {
-                        Proveedores obje = new Proveedores();
-                        obje.setIdProv(Integer.parseInt(request.getParameter("codiProv")));
-                        mens = new ProveedoresCtrl().elim(obje) ? "Datos eliminados." : "Datos NO eliminados.";
-                    } else {
-                        mens = "Seleccione un dato.";
-                    }
+                case "Cancelar": {
+                    request.getRequestDispatcher("/Personas.jsp").forward(request, response);
                     break;
-                }*/
+                }
                 default:
                     break;
             }
-            request.setAttribute("mensAlert", mens);
-            request.getRequestDispatcher("/Personas.jsp").forward(request, response);
         } else {
             response.sendRedirect(request.getContextPath() + "/Personas.jsp");
         }

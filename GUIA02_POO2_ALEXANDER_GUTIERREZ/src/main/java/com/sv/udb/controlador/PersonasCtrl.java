@@ -135,7 +135,7 @@ public class PersonasCtrl {
         }
         return resp;
     }
-    public boolean actu(Personas obje, InputStream foto){
+    public boolean actu(Personas obje, InputStream foto, String Fecha){
         boolean resp = false;
         Connection cn = new Conexion().getConn();
         try{
@@ -144,12 +144,12 @@ public class PersonasCtrl {
             ResultSet rs = cmd.executeQuery();
             rs.next();
             int numHist = rs.getInt(1) + 1;
-            String ConsultaCopia = "SELECT P.CODI_PERS, P.NOMB_PERS, P.APEL_PERS, P.FOTO_PERS, P.CODI_TIPO_PERS, P.GENE_PERS, DATE_FORMAT(P.FECH_NACI_PERS, '%Y-%m-%d %H:%i:%s'), P.DUI_PERS, P.NIT_PERS, P.TIPO_SANG_PERS, P.CODI_UBIC_GEOG, DATE_FORMAT(P.FECH_ALTA, '%Y-%m-%d %H:%i:%s'), P.FECH_BAJA, P.ESTA FROM pers P WHERE P.CODI_PERS = ?";
+            String ConsultaCopia = "SELECT P.CODI_PERS, P.NOMB_PERS, P.APEL_PERS, P.FOTO_PERS, P.CODI_TIPO_PERS, P.GENE_PERS, DATE_FORMAT(P.FECH_NACI_PERS, '%Y-%m-%d %H:%i:%s'), P.DUI_PERS, P.NIT_PERS, P.TIPO_SANG_PERS, P.CODI_UBIC_GEOG FROM pers P WHERE P.CODI_PERS = ?";
             cmd = cn.prepareStatement(ConsultaCopia);
             cmd.setInt(1, obje.getIdPers());
             rs = cmd.executeQuery();
             rs.next();
-            String ConsultaPegar = "INSERT INTO PERS_HIST VALUES(?,?,?,?,?,?,?,STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s'),STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s'),?)";
+            String ConsultaPegar = "INSERT INTO PERS_HIST VALUES(?,?,?,?,?,?,?,STR_TO_DATE(?, '%d-%m-%Y %H:%i:%s'),NULL,NULL)";
             cmd = cn.prepareStatement(ConsultaPegar);
             cmd.setInt(1, numHist);
             cmd.setInt(2, obje.getIdPers());
@@ -158,9 +158,7 @@ public class PersonasCtrl {
             cmd.setBlob(5, rs.getBlob(4));
             cmd.setInt(6, rs.getInt(5));
             cmd.setInt(7, rs.getInt(11));
-            cmd.setString(8, rs.getString(12));
-            cmd.setString(9, rs.getString(13));
-            cmd.setBlob(10, rs.getBlob(14));
+            cmd.setString(8, Fecha);
             cmd.executeUpdate();
             String ConsultaActu = "UPDATE PERS SET NOMB_PERS = ?, APEL_PERS = ?, FOTO_PERS = ?, CODI_TIPO_PERS = ?, CODI_UBIC_GEOG = ? WHERE CODI_PERS = ?";
             cmd = cn.prepareStatement(ConsultaActu);
@@ -170,6 +168,32 @@ public class PersonasCtrl {
             cmd.setInt(4, obje.getIdTipo());
             cmd.setInt(5, obje.getIdDirec());
             cmd.setInt(6, obje.getIdPers());
+            cmd.executeUpdate();
+            resp = true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        finally{
+            if(cn!= null){
+                try{
+                    if(!cn.isClosed()){
+                        cn.close();
+                    }
+                }catch(SQLException ex){
+                     ex.printStackTrace();
+                }
+            }
+        }
+        return resp;
+    }
+    public boolean elim(Personas obje, String Fecha){
+        boolean resp = false;
+        Connection cn = new Conexion().getConn();
+        try{
+            String Consulta = "UPDATE PERS SET FECH_BAJA = STR_TO_DATE(?, '%d-%m-%Y %H:%i:%s') WHERE CODI_PERS = ?";
+            PreparedStatement cmd = cn.prepareStatement(Consulta);
+            cmd.setString(1, Fecha);
+            cmd.setInt(2, obje.getIdPers());
             cmd.executeUpdate();
             resp = true;
         }catch(Exception ex){

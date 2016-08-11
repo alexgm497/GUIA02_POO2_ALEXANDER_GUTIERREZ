@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b294813b-bc0d-4677-aa52-88e052ae3c53">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idPers" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT p.CODI_PERS, p.NOMB_PERS, p.APEL_PERS, p.FOTO_PERS, t.NOMB_TIPO_PERS, (SELECT CASE WHEN p.GENE_PERS = 'M' THEN 'Masculino' ELSE 'Femenino' END) AS Genero, DATE_FORMAT(P.FECH_NACI_PERS, '%d-%m-%Y'), p.DUI_PERS, p.NIT_PERS, p.TIPO_SANG_PERS, u.NOMB_UBIC_GEOG, DATE_FORMAT(P.FECH_ALTA, '%d-%m-%Y') FROM pers p, ubic_geog u, tipo_pers t WHERE p.CODI_PERS = $P{idPers}]]>
+	</queryString>
+	<field name="CODI_PERS" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NOMB_PERS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="APEL_PERS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="FOTO_PERS" class="java.awt.Image">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NOMB_TIPO_PERS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Genero" class="java.lang.String"/>
+	<field name="DATE_FORMAT(P.FECH_NACI_PERS, &apos;%d-%m-%Y&apos;)" class="java.lang.String"/>
+	<field name="DUI_PERS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NIT_PERS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TIPO_SANG_PERS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NOMB_UBIC_GEOG" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DATE_FORMAT(P.FECH_ALTA, &apos;%d-%m-%Y&apos;)" class="java.lang.String"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="100">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="120" backcolor="#00CC99" uuid="d13d1be6-9ac6-45f0-925f-512cdef2b103"/>
+				<image>
+					<reportElement x="20" y="20" width="80" height="84" uuid="ed905369-ace9-4416-b8b3-d2d4f6347ace"/>
+					<imageExpression><![CDATA[$F{FOTO_PERS}]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement x="118" y="48" width="434" height="33" forecolor="#FFFFFF" uuid="a80ed4c5-7748-4700-be51-ea849690e499"/>
+					<textElement>
+						<font size="22" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOMB_PERS} + " " + $F{APEL_PERS}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="439" y="20" width="136" height="28" forecolor="#FFFFFF" uuid="8acbd001-c4a9-46e6-a1a2-c9a502acc4e2"/>
+					<textElement textAlignment="Right">
+						<font size="18"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CODI_PERS}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="1"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="1"/>
+	</columnHeader>
+	<detail>
+		<band height="353">
+			<textField>
+				<reportElement x="186" y="23" width="219" height="32" uuid="12a82cf7-962e-4827-8baa-b841ddf4e7a5"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMB_TIPO_PERS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="58" width="219" height="32" uuid="bb8104fc-5b74-4b47-b90c-bbe953540be7"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Genero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="90" width="219" height="33" uuid="044529dc-647c-4ba4-b1e4-b46ef5e59c29"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATE_FORMAT(P.FECH_NACI_PERS, '%d-%m-%Y')}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="126" width="219" height="30" uuid="b4c7f555-1454-48c8-aa2b-60984307b97d"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DUI_PERS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="157" width="219" height="32" uuid="ba259bb7-9324-454b-af84-361081bb5f67"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NIT_PERS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="191" width="219" height="32" uuid="304e264d-9fa6-4ecb-8541-299a3dca8599"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TIPO_SANG_PERS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="225" width="219" height="32" uuid="73d0f5a5-2ffe-4037-9572-442ec74e3088"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMB_UBIC_GEOG}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="260" width="219" height="32" uuid="efebcdb7-2dd5-4479-9251-8ac5ff153334"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATE_FORMAT(P.FECH_ALTA, '%d-%m-%Y')}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="23" width="166" height="32" uuid="bafd9c39-007b-4437-bdb6-c8b4bd980f0b"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="58" width="166" height="32" uuid="74ebc6db-7cf2-4141-8066-e3c5f56d25da"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Genero:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="91" width="166" height="32" uuid="5536215f-c28d-4f3d-a35f-3f18cacaa6a2"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nacimiento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="124" width="166" height="32" uuid="1d501f32-8b19-4a4b-8913-3e30e668d7e7"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[D.U.I.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="157" width="166" height="32" uuid="93d4d828-a3f9-4260-9512-49826afc83bb"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N.I.IT.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="191" width="166" height="32" uuid="4cb942df-8df1-4ddb-8563-93af2ce65c80"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de sangre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="225" width="166" height="32" uuid="22982839-93b6-4a44-b8c0-6f10dfdfb20a"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="260" width="166" height="32" uuid="d21110e8-e5aa-4543-983c-2f97833f646e"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de registro:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="120">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="0" width="595" height="120" backcolor="#00CC99" uuid="12906998-2c52-4114-bfaf-423e38beeddc"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="20" y="54" width="151" height="22" forecolor="#FFFFFF" uuid="5cfa164b-1c58-4296-b303-a69a616623f4"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
